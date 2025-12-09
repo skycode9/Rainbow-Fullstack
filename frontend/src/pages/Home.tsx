@@ -2,6 +2,7 @@ import Navigation from "../components/Navigation";
 import Hero from "../components/Hero";
 import Films from "../components/Portfolio"; // Renamed from Portfolio to Films
 import About from "../components/About";
+import ShowcaseSlider from "../components/ShowcaseSlider";
 import Team from "../components/Team";
 // import Services from '../components/Services' // Commented out as requested
 import Contact from "../components/Contact";
@@ -15,6 +16,7 @@ export default function Home() {
       <Hero />
       <Films />
       <About />
+      <ShowcaseSlider />
       <Team />
       <Clients />
       <Contact />

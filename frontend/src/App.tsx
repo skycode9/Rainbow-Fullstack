@@ -15,6 +15,8 @@ import ClientForm from "./pages/admin/ClientFormNew";
 import Contacts from "./pages/admin/Contacts";
 import Settings from "./pages/admin/Settings";
 import Subscribers from "./pages/admin/Subscribers";
+import Showcase from "./pages/admin/Showcase";
+import ShowcaseForm from "./pages/admin/ShowcaseForm";
 import LoadingAnimation from "./components/LoadingAnimation";
 
 function App() {
@@ -132,6 +134,9 @@ function App() {
         <Route path="/admin/contacts" element={<Contacts />} />
         <Route path="/admin/settings" element={<Settings />} />
         <Route path="/admin/subscribers" element={<Subscribers />} />
+        <Route path="/admin/showcase" element={<Showcase />} />
+        <Route path="/admin/showcase/create" element={<ShowcaseForm />} />
+        <Route path="/admin/showcase/edit/:id" element={<ShowcaseForm />} />
       </Routes>
     </div>
   );

@@ -48,6 +48,7 @@ app.use("/api/contacts", require("./routes/contacts"));
 app.use("/api/subscribers", require("./routes/subscribers"));
 app.use("/api/settings", require("./routes/settings"));
 app.use("/api/upload", require("./routes/upload"));
+app.use("/api/showcase", require("./routes/showcase"));
 
 // Error handling middleware
 app.use((err, req, res, next) => {

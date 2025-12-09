@@ -44,3 +44,14 @@ export const clientSchema = z.object({
 });
 
 export type ClientFormData = z.infer<typeof clientSchema>;
+
+// Showcase validation schema
+export const showcaseSchema = z.object({
+  title: z.string().min(1, "Title is required").max(100, "Title too long"),
+  subtitle: z.string().max(200, "Subtitle too long").optional(),
+  image: z.string().min(1, "Image is required"),
+  order: z.number().optional(),
+  isActive: z.boolean().optional(),
+});
+
+export type ShowcaseFormData = z.infer<typeof showcaseSchema>;

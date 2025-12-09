@@ -8,6 +8,7 @@ import {
   LogOut,
   Bell,
   Video,
+  Image,
 } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import {
@@ -16,6 +17,7 @@ import {
   clientsAPI,
   contactAPI,
   subscribersAPI,
+  showcaseAPI,
 } from "../../services/api";
 
 export default function Dashboard() {
@@ -26,6 +28,7 @@ export default function Dashboard() {
     clients: 0,
     contacts: 0,
     subscribers: 0,
+    showcase: 0,
   });
   const [loading, setLoading] = useState(true);
   const [adminData, setAdminData] = useState<any>(null);
@@ -40,14 +43,21 @@ export default function Dashboard() {
 
   const fetchStats = async () => {
     try {
-      const [filmsRes, teamRes, clientsRes, contactsRes, subscribersRes] =
-        await Promise.all([
-          filmsAPI.getAll(),
-          teamAPI.getAll(),
-          clientsAPI.getAll(),
-          contactAPI.getAll(),
-          subscribersAPI.getAll(),
-        ]);
+      const [
+        filmsRes,
+        teamRes,
+        clientsRes,
+        contactsRes,
+        subscribersRes,
+        showcaseRes,
+      ] = await Promise.all([
+        filmsAPI.getAll(),
+        teamAPI.getAll(),
+        clientsAPI.getAll(),
+        contactAPI.getAll(),
+        subscribersAPI.getAll(),
+        showcaseAPI.getAll(true),
+      ]);
 
       setStats({
         films: filmsRes.data.length,
@@ -55,6 +65,7 @@ export default function Dashboard() {
         clients: clientsRes.data.length,
         contacts: contactsRes.data.length,
         subscribers: subscribersRes.data.length,
+        showcase: showcaseRes.data.length,
       });
     } catch (error) {
       console.error("Error fetching stats:", error);
@@ -111,6 +122,13 @@ export default function Dashboard() {
       icon: Video,
       color: "from-red-500 to-red-600",
       link: "/admin/settings",
+    },
+    {
+      title: "Showcase Slider",
+      count: stats.showcase,
+      icon: Image,
+      color: "from-cyan-500 to-cyan-600",
+      link: "/admin/showcase",
     },
   ];
 

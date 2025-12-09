@@ -93,6 +93,15 @@ export const settingsAPI = {
   update: (data: any) => api.put("/settings", data),
 };
 
+// Showcase API
+export const showcaseAPI = {
+  getAll: (all?: boolean) => api.get(`/showcase${all ? "?all=true" : ""}`),
+  getOne: (id: string) => api.get(`/showcase/${id}`),
+  create: (data: any) => api.post("/showcase", data),
+  update: (id: string, data: any) => api.put(`/showcase/${id}`, data),
+  delete: (id: string) => api.delete(`/showcase/${id}`),
+};
+
 // Upload API
 export const uploadAPI = {
   uploadImage: (formData: FormData) => {
