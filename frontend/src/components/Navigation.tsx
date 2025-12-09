@@ -1,11 +1,11 @@
-import { useState, useEffect, memo } from 'react'
-import { motion } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { useState, useEffect, memo } from "react";
+import { motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
 function Navigation() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const [activeSection, setActiveSection] = useState('hero')
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {
     // Throttled scroll handler for navbar background
@@ -13,66 +13,69 @@ function Navigation() {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setScrolled(window.scrollY > 50)
+          setScrolled(window.scrollY > 50);
           ticking = false;
         });
         ticking = true;
       }
-    }
-    
+    };
+
     // IntersectionObserver for active section detection (no forced reflows!)
-    const sections = ['hero', 'films', 'about', 'contact']
+    const sections = ["hero", "films", "about", "contact"];
     const observerOptions = {
       threshold: 0.3,
-      rootMargin: '-80px 0px -50% 0px'
-    }
-    
+      rootMargin: "-80px 0px -50% 0px",
+    };
+
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setActiveSection(entry.target.id)
+          setActiveSection(entry.target.id);
         }
-      })
-    }
-    
-    const observer = new IntersectionObserver(observerCallback, observerOptions)
-    
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions
+    );
+
     // Observe all sections
-    sections.forEach(sectionId => {
-      const element = document.getElementById(sectionId)
-      if (element) observer.observe(element)
-    })
-    
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    
+    sections.forEach((sectionId) => {
+      const element = document.getElementById(sectionId);
+      if (element) observer.observe(element);
+    });
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => {
-      window.removeEventListener('scroll', handleScroll)
-      observer.disconnect()
-    }
-  }, [])
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
+  }, []);
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
+    const element = document.getElementById(sectionId);
     if (element) {
-      const offsetTop = element.offsetTop - 80 // Adjust for fixed navbar
+      const offsetTop = element.offsetTop - 80; // Adjust for fixed navbar
       window.scrollTo({
         top: offsetTop,
-        behavior: 'smooth'
-      })
+        behavior: "smooth",
+      });
     }
-    setIsOpen(false)
-  }
+    setIsOpen(false);
+  };
 
   const navItems = [
-    { name: 'Films', href: 'films' },
-    { name: 'About', href: 'about' },
-    { name: 'Contact', href: 'contact' },
-  ]
+    { name: "Films", href: "films" },
+    { name: "About", href: "about" },
+    { name: "Contact", href: "contact" },
+  ];
 
   return (
     <motion.nav
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        scrolled ? 'bg-black/90 backdrop-blur-md' : 'bg-transparent'
+        scrolled ? "bg-black/90 backdrop-blur-md" : "bg-transparent"
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -82,14 +85,15 @@ function Navigation() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <motion.div
-            className="text-2xl font-bold cursor-pointer"
+            className="cursor-pointer"
             whileHover={{ scale: 1.05 }}
-            onClick={() => scrollToSection('hero')}
+            onClick={() => scrollToSection("hero")}
           >
-            <span className="text-white">
-              RAINBOW
-            </span>{' '}
-            <span className="text-white">FILMS</span>
+            <img
+              src="/logo_512x512.png"
+              alt="Rainbow Films"
+              className="h-16 w-auto"
+            />
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -104,7 +108,7 @@ function Navigation() {
                 <button
                   onClick={() => scrollToSection(item.href)}
                   className={`text-white hover:text-white transition-colors duration-300 relative group ${
-                    activeSection === item.href ? 'text-white' : ''
+                    activeSection === item.href ? "text-white" : ""
                   }`}
                 >
                   {item.name}
@@ -126,24 +130,21 @@ function Navigation() {
 
         {/* Mobile Navigation */}
         <motion.div
-          className={`md:hidden mt-4 ${isOpen ? 'block' : 'hidden'}`}
+          className={`md:hidden mt-4 ${isOpen ? "block" : "hidden"}`}
           initial={{ opacity: 0, height: 0 }}
-          animate={{ 
-            opacity: isOpen ? 1 : 0, 
-            height: isOpen ? 'auto' : 0 
+          animate={{
+            opacity: isOpen ? 1 : 0,
+            height: isOpen ? "auto" : 0,
           }}
           transition={{ duration: 0.3 }}
         >
           <div className="flex flex-col space-y-4 py-4">
             {navItems.map((item) => (
-              <motion.div
-                key={item.name}
-                whileHover={{ x: 10 }}
-              >
+              <motion.div key={item.name} whileHover={{ x: 10 }}>
                 <button
                   onClick={() => scrollToSection(item.href)}
                   className={`relative text-white hover:text-white transition-colors duration-300 ${
-                    activeSection === item.href ? 'text-white' : ''
+                    activeSection === item.href ? "text-white" : ""
                   }`}
                 >
                   {item.name}
@@ -154,7 +155,7 @@ function Navigation() {
         </motion.div>
       </div>
     </motion.nav>
-  )
+  );
 }
 
-export default memo(Navigation)
+export default memo(Navigation);

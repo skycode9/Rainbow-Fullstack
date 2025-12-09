@@ -113,8 +113,8 @@ function Contact() {
     {
       icon: Mail,
       title: "Email",
-      info: "hello@rainbowfilms.com",
-      link: "mailto:hello@rainbowfilms.com",
+      info: "hello@rainbowfilms.in",
+      link: "mailto:hello@rainbowfilms.in",
     },
     // {
     //   icon: Phone,
@@ -126,14 +126,14 @@ function Contact() {
       icon: MapPin,
       title: "Location",
       info: "Ahmedabad, Gujarat",
-      link: "#",
+      link: "https://maps.app.goo.gl/F1TiPuzBaJnciyiF9?g_st=iw",
     },
   ];
 
   const socialLinks = [
     {
       icon: Instagram,
-      href: "https://www.instagram.com/rainbowfilmsofficial/",
+      href: "https://www.instagram.com/rainbowfilmsofficial",
       label: "Instagram",
     },
     {

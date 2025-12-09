@@ -159,10 +159,10 @@ function Hero() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1 }}
         >
-          <span className="text-white">Rainbow</span>{" "}
           <span className="bg-rainbow-gradient bg-clip-text text-transparent">
-            Films
+            Rainbow
           </span>
+          <span className="text-white"> Films</span>
         </motion.p>
       </div>
 

@@ -123,14 +123,15 @@ export default function Footer() {
             transition={{ duration: 0.6 }}
           >
             <motion.div
-              className="text-3xl font-bold mb-6 cursor-pointer"
+              className="mb-6 cursor-pointer"
               whileHover={{ scale: 1.05 }}
               onClick={() => scrollToSection("home")}
             >
-              <span className="text-white bg-clip-text text-transparent">
-                RAINBOW
-              </span>{" "}
-              <span className="text-white">FILMS</span>
+              <img
+                src="/logo_512x512.png"
+                alt="Rainbow Films"
+                className="h-24 w-auto"
+              />
             </motion.div>
             <p className="text-gray-300 mb-6 leading-relaxed">
               Crafting cinematic excellence through innovative storytelling,
@@ -139,11 +140,11 @@ export default function Footer() {
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-gray-300">
                 <Mail size={16} className="text-white" />
-                <span className="text-sm">hello@rainbowfilms.com</span>
+                <span className="text-sm">hello@rainbowfilms.in</span>
               </div>
               <div className="flex items-center gap-3 text-gray-300">
                 <MapPin size={16} className="text-white" />
-                <span className="text-sm">Anand, Gujarat</span>
+                <span className="text-sm">Ahmedabad, Gujarat</span>
               </div>
             </div>
           </motion.div>
