@@ -39,4 +39,7 @@ filmSchema.pre("save", function (next) {
   next();
 });
 
+// Indexes for faster queries
+filmSchema.index({ order: 1, createdAt: -1 });
+
 module.exports = mongoose.model("Film", filmSchema);

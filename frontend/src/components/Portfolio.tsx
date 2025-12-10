@@ -40,7 +40,6 @@ function Films() {
     const fetchFilms = async () => {
       try {
         const response = await filmsAPI.getAll();
-        console.log("Films API Response:", response.data);
         if (response.data && response.data.length > 0) {
           setFilms(response.data);
         }

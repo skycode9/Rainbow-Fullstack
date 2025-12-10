@@ -8,12 +8,14 @@ const authMiddleware = require("../middleware/auth");
 // @access  Public
 router.get("/", async (req, res) => {
   try {
-    const settings = await Settings.find();
+    const settings = await Settings.find().lean();
     // Convert to key-value object
     const settingsObj = {};
     settings.forEach((setting) => {
       settingsObj[setting.key] = setting.value;
     });
+    // Cache for 10 minutes
+    res.set("Cache-Control", "public, max-age=600");
     res.json(settingsObj);
   } catch (error) {
     console.error(error);

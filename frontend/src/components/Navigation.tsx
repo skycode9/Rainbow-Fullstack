@@ -92,6 +92,8 @@ function Navigation() {
             <img
               src="/logo_512x512.png"
               alt="Rainbow Films"
+              width={64}
+              height={64}
               className="h-16 w-auto"
             />
           </motion.div>

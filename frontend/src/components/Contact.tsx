@@ -1,15 +1,8 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState, useCallback, memo } from "react";
-import {
-  Mail,
-  MapPin,
-  Send,
-  Instagram,
-  Twitter,
-  Linkedin,
-  Youtube,
-} from "lucide-react";
+import { Mail, MapPin, Send, Instagram, Linkedin, Youtube } from "lucide-react";
+import { getApiUrl } from "../utils/config";
 
 function Contact() {
   const ref = useRef(null);
@@ -77,7 +70,6 @@ function Contact() {
 
       try {
         // Submit to backend API
-        const { getApiUrl } = await import("../utils/config");
         const API_URL = getApiUrl();
         const response = await fetch(`${API_URL}/contacts`, {
           method: "POST",

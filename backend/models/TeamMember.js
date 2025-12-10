@@ -21,4 +21,7 @@ const teamMemberSchema = new mongoose.Schema({
   },
 });
 
+// Index for faster queries
+teamMemberSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model("TeamMember", teamMemberSchema);

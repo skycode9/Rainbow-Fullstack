@@ -8,7 +8,9 @@ const authMiddleware = require("../middleware/auth");
 // @access  Public
 router.get("/", async (req, res) => {
   try {
-    const films = await Film.find().sort({ order: 1, createdAt: -1 });
+    const films = await Film.find().sort({ order: 1, createdAt: -1 }).lean();
+    // Cache for 5 minutes
+    res.set("Cache-Control", "public, max-age=300");
     res.json(films);
   } catch (error) {
     console.error(error);

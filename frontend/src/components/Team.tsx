@@ -98,11 +98,9 @@ function Team() {
     const fetchTeam = async () => {
       try {
         const response = await teamAPI.getAll();
-        console.log("Team API Response:", response.data);
         if (response.data && response.data.length > 0) {
           setTeamMembers(response.data);
         } else {
-          console.log("No team members from backend, using fallback");
           setTeamMembers(fallbackTeamMembers);
         }
       } catch (error) {

@@ -28,7 +28,6 @@ const Clients = () => {
     const fetchClients = async () => {
       try {
         const response = await clientsAPI.getAll();
-        console.log("Clients API Response:", response.data);
         if (response.data && response.data.length > 0) {
           setClients(response.data);
         }

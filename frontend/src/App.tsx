@@ -1,23 +1,32 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, lazy, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 import Lenis from "lenis";
 import Home from "./pages/Home";
-import AdminLogin from "./pages/admin/Login";
-import Dashboard from "./pages/admin/Dashboard";
-import Films from "./pages/admin/Films";
-import FilmForm from "./pages/admin/FilmFormNew";
-import Team from "./pages/admin/Team";
-import TeamForm from "./pages/admin/TeamFormNew";
-import Clients from "./pages/admin/Clients";
-import ClientForm from "./pages/admin/ClientFormNew";
-import Contacts from "./pages/admin/Contacts";
-import Settings from "./pages/admin/Settings";
-import Subscribers from "./pages/admin/Subscribers";
-import Showcase from "./pages/admin/Showcase";
-import ShowcaseForm from "./pages/admin/ShowcaseForm";
 import LoadingAnimation from "./components/LoadingAnimation";
+
+// Lazy load admin pages - only loaded when needed
+const AdminLogin = lazy(() => import("./pages/admin/Login"));
+const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
+const Films = lazy(() => import("./pages/admin/Films"));
+const FilmForm = lazy(() => import("./pages/admin/FilmFormNew"));
+const Team = lazy(() => import("./pages/admin/Team"));
+const TeamForm = lazy(() => import("./pages/admin/TeamFormNew"));
+const Clients = lazy(() => import("./pages/admin/Clients"));
+const ClientForm = lazy(() => import("./pages/admin/ClientFormNew"));
+const Contacts = lazy(() => import("./pages/admin/Contacts"));
+const Settings = lazy(() => import("./pages/admin/Settings"));
+const Subscribers = lazy(() => import("./pages/admin/Subscribers"));
+const Showcase = lazy(() => import("./pages/admin/Showcase"));
+const ShowcaseForm = lazy(() => import("./pages/admin/ShowcaseForm"));
+
+// Admin loading fallback
+const AdminLoadingFallback = () => (
+  <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+    <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin" />
+  </div>
+);
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -120,23 +129,142 @@ function App() {
             ) : null
           }
         />
-        <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin/dashboard" element={<Dashboard />} />
-        <Route path="/admin/films" element={<Films />} />
-        <Route path="/admin/films/create" element={<FilmForm />} />
-        <Route path="/admin/films/edit/:id" element={<FilmForm />} />
-        <Route path="/admin/team" element={<Team />} />
-        <Route path="/admin/team/create" element={<TeamForm />} />
-        <Route path="/admin/team/edit/:id" element={<TeamForm />} />
-        <Route path="/admin/clients" element={<Clients />} />
-        <Route path="/admin/clients/create" element={<ClientForm />} />
-        <Route path="/admin/clients/edit/:id" element={<ClientForm />} />
-        <Route path="/admin/contacts" element={<Contacts />} />
-        <Route path="/admin/settings" element={<Settings />} />
-        <Route path="/admin/subscribers" element={<Subscribers />} />
-        <Route path="/admin/showcase" element={<Showcase />} />
-        <Route path="/admin/showcase/create" element={<ShowcaseForm />} />
-        <Route path="/admin/showcase/edit/:id" element={<ShowcaseForm />} />
+        <Route
+          path="/admin/login"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <AdminLogin />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <Dashboard />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/films"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <Films />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/films/create"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <FilmForm />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/films/edit/:id"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <FilmForm />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/team"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <Team />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/team/create"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <TeamForm />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/team/edit/:id"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <TeamForm />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/clients"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <Clients />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/clients/create"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <ClientForm />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/clients/edit/:id"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <ClientForm />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/contacts"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <Contacts />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/settings"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <Settings />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/subscribers"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <Subscribers />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/showcase"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <Showcase />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/showcase/create"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <ShowcaseForm />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/showcase/edit/:id"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <ShowcaseForm />
+            </Suspense>
+          }
+        />
       </Routes>
     </div>
   );

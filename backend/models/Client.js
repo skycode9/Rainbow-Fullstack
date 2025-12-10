@@ -16,4 +16,7 @@ const clientSchema = new mongoose.Schema({
   },
 });
 
+// Index for faster queries
+clientSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model("Client", clientSchema);

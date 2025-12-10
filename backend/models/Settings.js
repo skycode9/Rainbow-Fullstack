@@ -26,4 +26,6 @@ settingsSchema.pre("save", function (next) {
   next();
 });
 
+// Note: key field already has unique:true which creates an index automatically
+
 module.exports = mongoose.model("Settings", settingsSchema);

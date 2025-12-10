@@ -10,7 +10,11 @@ router.get("/", async (req, res) => {
   try {
     const { all } = req.query;
     const query = all === "true" ? {} : { isActive: true };
-    const slides = await Showcase.find(query).sort({ order: 1, createdAt: -1 });
+    const slides = await Showcase.find(query)
+      .sort({ order: 1, createdAt: -1 })
+      .lean();
+    // Cache for 5 minutes
+    res.set("Cache-Control", "public, max-age=300");
     res.json(slides);
   } catch (error) {
     console.error(error);

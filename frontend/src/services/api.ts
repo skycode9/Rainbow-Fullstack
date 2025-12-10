@@ -1,7 +1,15 @@
 import axios from "axios";
+import { apiCache, CACHE_KEYS } from "../utils/apiCache";
 
 // Use env variable which changes based on environment
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+
+// Cache TTL values (in ms)
+const CACHE_TTL = {
+  SHORT: 2 * 60 * 1000, // 2 minutes
+  MEDIUM: 5 * 60 * 1000, // 5 minutes
+  LONG: 10 * 60 * 1000, // 10 minutes
+};
 
 const api = axios.create({
   baseURL: API_URL,
@@ -45,31 +53,85 @@ export const authAPI = {
   register: (data: any) => api.post("/auth/register", data),
 };
 
-// Films API
+// Films API with caching
 export const filmsAPI = {
-  getAll: () => api.get("/films"),
+  getAll: async () => {
+    const cached = apiCache.get(CACHE_KEYS.FILMS);
+    if (cached) return { data: cached };
+    const response = await api.get("/films");
+    apiCache.set(CACHE_KEYS.FILMS, response.data, CACHE_TTL.MEDIUM);
+    return response;
+  },
   getOne: (id: string) => api.get(`/films/${id}`),
-  create: (data: any) => api.post("/films", data),
-  update: (id: string, data: any) => api.put(`/films/${id}`, data),
-  delete: (id: string) => api.delete(`/films/${id}`),
+  create: async (data: any) => {
+    const response = await api.post("/films", data);
+    apiCache.invalidate(CACHE_KEYS.FILMS);
+    return response;
+  },
+  update: async (id: string, data: any) => {
+    const response = await api.put(`/films/${id}`, data);
+    apiCache.invalidate(CACHE_KEYS.FILMS);
+    return response;
+  },
+  delete: async (id: string) => {
+    const response = await api.delete(`/films/${id}`);
+    apiCache.invalidate(CACHE_KEYS.FILMS);
+    return response;
+  },
 };
 
-// Team API
+// Team API with caching
 export const teamAPI = {
-  getAll: () => api.get("/team"),
+  getAll: async () => {
+    const cached = apiCache.get(CACHE_KEYS.TEAM);
+    if (cached) return { data: cached };
+    const response = await api.get("/team");
+    apiCache.set(CACHE_KEYS.TEAM, response.data, CACHE_TTL.MEDIUM);
+    return response;
+  },
   getOne: (id: string) => api.get(`/team/${id}`),
-  create: (data: any) => api.post("/team", data),
-  update: (id: string, data: any) => api.put(`/team/${id}`, data),
-  delete: (id: string) => api.delete(`/team/${id}`),
+  create: async (data: any) => {
+    const response = await api.post("/team", data);
+    apiCache.invalidate(CACHE_KEYS.TEAM);
+    return response;
+  },
+  update: async (id: string, data: any) => {
+    const response = await api.put(`/team/${id}`, data);
+    apiCache.invalidate(CACHE_KEYS.TEAM);
+    return response;
+  },
+  delete: async (id: string) => {
+    const response = await api.delete(`/team/${id}`);
+    apiCache.invalidate(CACHE_KEYS.TEAM);
+    return response;
+  },
 };
 
-// Clients API
+// Clients API with caching
 export const clientsAPI = {
-  getAll: () => api.get("/clients"),
+  getAll: async () => {
+    const cached = apiCache.get(CACHE_KEYS.CLIENTS);
+    if (cached) return { data: cached };
+    const response = await api.get("/clients");
+    apiCache.set(CACHE_KEYS.CLIENTS, response.data, CACHE_TTL.MEDIUM);
+    return response;
+  },
   getOne: (id: string) => api.get(`/clients/${id}`),
-  create: (data: any) => api.post("/clients", data),
-  update: (id: string, data: any) => api.put(`/clients/${id}`, data),
-  delete: (id: string) => api.delete(`/clients/${id}`),
+  create: async (data: any) => {
+    const response = await api.post("/clients", data);
+    apiCache.invalidate(CACHE_KEYS.CLIENTS);
+    return response;
+  },
+  update: async (id: string, data: any) => {
+    const response = await api.put(`/clients/${id}`, data);
+    apiCache.invalidate(CACHE_KEYS.CLIENTS);
+    return response;
+  },
+  delete: async (id: string) => {
+    const response = await api.delete(`/clients/${id}`);
+    apiCache.invalidate(CACHE_KEYS.CLIENTS);
+    return response;
+  },
 };
 
 // Contact API
@@ -87,19 +149,48 @@ export const subscribersAPI = {
   delete: (id: string) => api.delete(`/subscribers/${id}`),
 };
 
-// Settings API
+// Settings API with caching
 export const settingsAPI = {
-  get: () => api.get("/settings"),
-  update: (data: any) => api.put("/settings", data),
+  get: async () => {
+    const cached = apiCache.get(CACHE_KEYS.SETTINGS);
+    if (cached) return { data: cached };
+    const response = await api.get("/settings");
+    apiCache.set(CACHE_KEYS.SETTINGS, response.data, CACHE_TTL.LONG);
+    return response;
+  },
+  update: async (data: any) => {
+    const response = await api.put("/settings", data);
+    apiCache.invalidate(CACHE_KEYS.SETTINGS);
+    return response;
+  },
 };
 
-// Showcase API
+// Showcase API with caching
 export const showcaseAPI = {
-  getAll: (all?: boolean) => api.get(`/showcase${all ? "?all=true" : ""}`),
+  getAll: async (all?: boolean) => {
+    const cacheKey = all ? `${CACHE_KEYS.SHOWCASE}_all` : CACHE_KEYS.SHOWCASE;
+    const cached = apiCache.get(cacheKey);
+    if (cached) return { data: cached };
+    const response = await api.get(`/showcase${all ? "?all=true" : ""}`);
+    apiCache.set(cacheKey, response.data, CACHE_TTL.MEDIUM);
+    return response;
+  },
   getOne: (id: string) => api.get(`/showcase/${id}`),
-  create: (data: any) => api.post("/showcase", data),
-  update: (id: string, data: any) => api.put(`/showcase/${id}`, data),
-  delete: (id: string) => api.delete(`/showcase/${id}`),
+  create: async (data: any) => {
+    const response = await api.post("/showcase", data);
+    apiCache.invalidatePrefix(CACHE_KEYS.SHOWCASE);
+    return response;
+  },
+  update: async (id: string, data: any) => {
+    const response = await api.put(`/showcase/${id}`, data);
+    apiCache.invalidatePrefix(CACHE_KEYS.SHOWCASE);
+    return response;
+  },
+  delete: async (id: string) => {
+    const response = await api.delete(`/showcase/${id}`);
+    apiCache.invalidatePrefix(CACHE_KEYS.SHOWCASE);
+    return response;
+  },
 };
 
 // Upload API
