@@ -39,6 +39,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// Health check endpoint for Koyeb
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 // Routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/films", require("./routes/films"));
