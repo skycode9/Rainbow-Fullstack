@@ -10,6 +10,9 @@ const connectDB = require("./db");
 const app = express();
 const port = process.env.PORT || 8080;
 
+// Trust proxy - required for rate limiting behind reverse proxy (Back4App, etc.)
+app.set("trust proxy", 1);
+
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:4173",
